@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_traslado_datos/splash_screen.dart';
+import 'package:test_traslado_datos/trasladar_datos.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/inicio',
       routes: {
         '/inicio': (context) => SplashScreen(),
+        '/trasladar': (context) => TrasladarDatosScreen(),
       },
     ));
   }

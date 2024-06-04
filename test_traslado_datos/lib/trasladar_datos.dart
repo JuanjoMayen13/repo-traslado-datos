@@ -9,6 +9,7 @@ class TrasladarDatosScreen extends StatefulWidget {
 }
 
 class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
+  String baseUrl = 'http://192.168.1.20:9091/api/';
   // ignore: unused_field
   bool _expandir = false;
   PlatformFile? _archivoSeleccionado;
@@ -139,6 +140,65 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
     );
   }
 
+  void _msgConfirmar() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Confirmar',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF154790),
+              ),
+            ),
+            content: Text(
+              '¿Desea insertar los datos de la hoja ${_nombreHojaSeleccionada} a la tabla ${_tablaSeleccionada}',
+              style: TextStyle(color: Color(0xFF154790)),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Regresar',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF154790),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  switch (_tablaSeleccionada) {
+                    case "Bodega":
+                      _insertBodega();
+                    case "Clase_Producto":
+                      _insertClaseProducto();
+                    case "Marca":
+                      _insertMarca();
+                    case "Producto":
+                      _insertProducto();
+                    case "Tipo_Precio":
+                      _insertTipoPrecio();
+                    case "Unidad_Medida":
+                      _insertUnidadMedida();
+                  }
+                },
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF154790),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   void _msgInsertadoCorrectamente() {
     showDialog(
         context: context,
@@ -158,7 +218,11 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TrasladarDatosScreen()),
+                  );
                 },
                 child: Text(
                   'OK',
@@ -195,7 +259,7 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
               await MultipartFile.fromFile(file.path!, filename: file.name),
         });
         final response = await _dio.post(
-          'http://192.168.1.20:9091/api/Ctrl_ObtenerHojasExcel',
+          '${baseUrl}Ctrl_ObtenerHojasExcel',
           data: formData,
         );
         print('Respuesta del servidor: ${response.statusCode}');
@@ -229,17 +293,14 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
       });
 
       final response = await _dio.post(
-        'http://192.168.1.20:9091/api/Ctrl_PaExternalBodega',
+        '${baseUrl}Ctrl_PaExternalBodega',
         data: formData,
       );
 
       if (response.statusCode == 200) {
         print(
             'Datos insertados correctamente en la tabla de la base de datos.');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TrasladarDatosScreen()),
-        );
+
         _msgInsertadoCorrectamente();
       } else {
         print('Error en la solicitud al servidor: ${response.statusCode}');
@@ -300,16 +361,13 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
       });
 
       final response = await _dio.post(
-        'http://192.168.1.20:9091/api/Ctrl_PaExternalClaseProducto',
+        '${baseUrl}Ctrl_PaExternalClaseProducto',
         data: formData,
       );
       if (response.statusCode == 200) {
         print(
             'Datos insertados correctamente en la tabla de la base de datos.');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TrasladarDatosScreen()),
-        );
+
         _msgInsertadoCorrectamente();
       } else {
         print('Error en la solicitud al servidor: ${response.statusCode}');
@@ -370,17 +428,14 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
       });
 
       final response = await _dio.post(
-        'http://192.168.1.20:9091/api/Ctrl_PaExternalMarca',
+        '${baseUrl}Ctrl_PaExternalMarca',
         data: formData,
       );
 
       if (response.statusCode == 200) {
         print(
             'Datos insertados correctamente en la tabla de la base de datos.');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TrasladarDatosScreen()),
-        );
+
         _msgInsertadoCorrectamente();
       } else {
         print('Error en la solicitud al servidor: ${response.statusCode}');
@@ -439,16 +494,13 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
         'userName': 'ds'
       });
       final response = await _dio.post(
-        'http://192.168.1.20:9091/api/Ctrl_PaExternalProducto',
+        '${baseUrl}Ctrl_PaExternalProducto',
         data: formData,
       );
       if (response.statusCode == 200) {
         print(
             'Datos insertados correctamente en la tabla de la base de datos.');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TrasladarDatosScreen()),
-        );
+
         _msgInsertadoCorrectamente();
       } else {
         print('Error en la solicitud al servidor: ${response.statusCode}');
@@ -510,17 +562,14 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
       });
 
       final response = await _dio.post(
-        'http://192.168.1.20:9091/api/Ctrl_PaExternalTipoPrecio',
+        '${baseUrl}Ctrl_PaExternalTipoPrecio',
         data: formData,
       );
 
       if (response.statusCode == 200) {
         print(
             'Datos insertados correctamente en la tabla de la base de datos.');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TrasladarDatosScreen()),
-        );
+
         _msgInsertadoCorrectamente();
       } else {
         print('Error en la solicitud al servidor: ${response.statusCode}');
@@ -582,17 +631,14 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
       });
 
       final response = await _dio.post(
-        'http://192.168.1.20:9091/api/Ctrl_PaExternalUnidadMedida',
+        '${baseUrl}Ctrl_PaExternalUnidadMedida',
         data: formData,
       );
 
       if (response.statusCode == 200) {
         print(
             'Datos insertados correctamente en la tabla de la base de datos.');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TrasladarDatosScreen()),
-        );
+
         _msgInsertadoCorrectamente();
       } else {
         print('Error en la solicitud al servidor: ${response.statusCode}');
@@ -646,6 +692,7 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
             bottom: Radius.circular(30.0), // Radio para el borde circular
           ),
           child: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.cyan, // Fondo color cyan
             elevation: 0,
             flexibleSpace: Padding(
@@ -803,20 +850,7 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
                         _nombreHojaSeleccionada != null)
                       TextButton(
                         onPressed: () {
-                          switch (_tablaSeleccionada) {
-                            case "Bodega":
-                              _insertBodega();
-                            case "Clase_Producto":
-                              _insertClaseProducto();
-                            case "Marca":
-                              _insertMarca();
-                            case "Producto":
-                              _insertProducto();
-                            case "Tipo_Precio":
-                              _insertTipoPrecio();
-                            case "Unidad_Medida":
-                              _insertUnidadMedida();
-                          }
+                          _msgConfirmar();
                         },
                         child: Row(
                           children: [
