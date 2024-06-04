@@ -30,21 +30,29 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
         return AlertDialog(
           title: Row(
             children: [
-              Icon(Icons.warning, color: Colors.red),
+              Icon(
+                Icons.warning,
+                color: Color.fromARGB(255, 255, 16, 16),
+              ),
               SizedBox(width: 10),
-              Text('Input vacío', style: TextStyle(color: Colors.red)),
+              Text(
+                'Input vacío',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 16, 16),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
-          content:
-              Text('Por favor, seleccione antes el nombre de una tabla SQL.'),
+          content: Text(
+            'Por favor, seleccione antes el nombre de una tabla SQL.',
+            style: TextStyle(color: Colors.black),
+          ),
           actions: [
             TextButton(
               child: Text(
                 'OK',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.red,
+                style: TextStyle(color: Color.fromARGB(255, 255, 16, 16)),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -61,15 +69,23 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            'Inconveniente',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF154790),
+          title: Row(children: [
+            Icon(
+              Icons.warning,
+              color: Color(0xFFDC9525),
             ),
-          ),
+            SizedBox(width: 10),
+            Text(
+              'Inconveniente',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFDC9525),
+              ),
+            ),
+          ]),
           content: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Posibles inconvenientes:',
@@ -79,18 +95,23 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
                   ),
                 ),
                 SizedBox(height: 8),
-                Text(
-                  '  Hoja Excel seleccionada incorrecta\n  Archivo Excel Incorrecto',
-                  style: TextStyle(color: Color(0xFF154790)),
+                Wrap(
+                  children: [
+                    Text(
+                      '  - Hoja Excel seleccionada incorrecta\n',
+                      style: TextStyle(color: Color(0xFF154790)),
+                    ),
+                    Text(
+                      '  - Archivo Excel incorrecto',
+                      style: TextStyle(color: Color(0xFF154790)),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
               child: Text(
                 'OK',
                 style: TextStyle(
@@ -98,6 +119,9 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
                   color: Color(0xFFDC9525),
                 ),
               ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ],
         );
@@ -129,9 +153,7 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
               child: Text(
                 'OK',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF154790),
-                ),
+                    fontWeight: FontWeight.bold, color: Color(0xFFDC9525)),
               ),
             ),
           ],
@@ -145,16 +167,45 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(
-              'Confirmar',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF154790),
-              ),
+            title: Row(
+              children: [
+                Icon(
+                  MdiIcons.checkUnderline,
+                  color: Color(0xFFDC9525),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'Confirmar',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFDC9525),
+                  ),
+                ),
+              ],
             ),
-            content: Text(
-              '¿Desea insertar los datos de la hoja ${_nombreHojaSeleccionada} a la tabla ${_tablaSeleccionada}',
-              style: TextStyle(color: Color(0xFF154790)),
+            content: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: '¿Desea insertar los datos de la hoja ',
+                      style: TextStyle(color: Color(0xFF154790))),
+                  TextSpan(
+                    text: '$_nombreHojaSeleccionada',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Color(0xFF154790)),
+                  ),
+                  TextSpan(
+                      text: ' a la tabla ',
+                      style: TextStyle(color: Color(0xFF154790))),
+                  TextSpan(
+                    text: '$_tablaSeleccionada',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Color(0xFF154790)),
+                  ),
+                  TextSpan(
+                      text: '?', style: TextStyle(color: Color(0xFF154790))),
+                ],
+              ),
             ),
             actions: [
               TextButton(
@@ -165,7 +216,7 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
                   'Regresar',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF154790),
+                    color: Color(0xFFDC9525),
                   ),
                 ),
               ),
@@ -189,9 +240,7 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
                 child: Text(
                   'OK',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF154790),
-                  ),
+                      fontWeight: FontWeight.bold, color: Color(0xFFDC9525)),
                 ),
               ),
             ],
@@ -201,40 +250,50 @@ class _TrasladarDatosScreenState extends State<TrasladarDatosScreen> {
 
   void _msgInsertadoCorrectamente() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              'Datos insertados correctamente',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF154790),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(
+                Icons.check_circle, // Success icon
+                color: Color(0xFFDC9525), // Cyan
               ),
-            ),
-            content: Text(
-              'Datos insertados correctamente en la tabla de la base de datos',
-              style: TextStyle(color: Color(0xFF154790)),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TrasladarDatosScreen()),
-                  );
-                },
-                child: Text(
-                  'OK',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF154790),
-                  ),
+              SizedBox(width: 10.0),
+              Text(
+                '¡Éxito!', // More positive title
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFDC9525), // Cyan
                 ),
               ),
             ],
-          );
-        });
+          ),
+          content: Text(
+            'Datos insertados correctamente\nen la tabla de la base de datos.',
+            style: TextStyle(color: Color(0xFF154790)), // Clear text color
+            textAlign: TextAlign.center, // Centered text for better layout
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'Continuar', // More action-oriented button text
+                style: TextStyle(
+                  color: Color(0xFFDC9525), // Cyan
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TrasladarDatosScreen()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _seleccionarArchivo() async {
